@@ -27,6 +27,11 @@ function Game() {
       jaws.switchGameState( new jaws.game_states.Edit({constructors: [Spider], grid_size: [2,2], game_objects: spiders, url: "/game_objects"}) )
     }
 
+    if(jaws.pressedWithoutRepeat("u")) {
+      console.log("pixel_map.update();")
+      world.pixel_map.update();
+    }
+
     // Update animations and so on
     jaws.update(player, spiders, bombs);
 

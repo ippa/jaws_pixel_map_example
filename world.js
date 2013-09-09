@@ -58,15 +58,17 @@ function World(options) {
   }
 
   this.explodeBomb = function(bomb) {
+    var r = 30;
+
     self.pixel_map.context.save();
     self.pixel_map.context.beginPath();
-    self.pixel_map.context.arc(bomb.x, bomb.y, 30, 0, Math.PI*2, true);
+    self.pixel_map.context.arc(bomb.x, bomb.y, r, 0, Math.PI*2, true);
     self.pixel_map.context.closePath();
     self.pixel_map.context.globalCompositeOperation = "destination-out";
     self.pixel_map.context.fill();
     self.pixel_map.context.restore();
-    self.pixel_map.update();  // Update our raw data-array from the newly modified canvas context
+    self.pixel_map.update(bomb.x - r, bomb.y - r, r*2, r*2);  // Update our raw data-array from the newly modified canvas context
 
-    console.log("* BOOM!");
+    jaws.log("* BOOM!");
   }
 }
