@@ -33,7 +33,6 @@ function PixelMapExample() {
     jaws.clear();
     pixel_map.draw();
     player.draw();
-    player.rect().draw();
   }
 
   function updatePhysics(sprite) {

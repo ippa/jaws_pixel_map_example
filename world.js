@@ -1,7 +1,6 @@
 function World(options) {
   var self = this
   this.pixel_map = new jaws.PixelMap({image: options.image, scale_image: 3});
-  this.pixel_map.nameColor("air", this.pixel_map.at(0,0));
   this.pixel_map.nameColor("ground", [0,0,0,255]);
 
   /*
@@ -36,10 +35,7 @@ function World(options) {
     /*
      * If we collided while moving vertically and had a vertical velocity, enable jumping again
      */
-    if(collided.y) {
-      if(sprite.vy > 0) sprite.can_jump = true;
-      sprite.vy = 0;
-    }
+    if(collided.y) sprite.vy = 0;
 
     if(collided.x && sprite.vx != 0) {
       var saved_position = [sprite.x, sprite.y]
@@ -67,6 +63,7 @@ function World(options) {
     self.pixel_map.context.globalCompositeOperation = "destination-out";
     self.pixel_map.context.fill();
     self.pixel_map.context.restore();
+
     self.pixel_map.update(bomb.x - r, bomb.y - r, r*2, r*2);  // Update our raw data-array from the newly modified canvas context
 
     jaws.log("* BOOM!");

@@ -12,6 +12,7 @@ function Spider(options) {
     self.setImage( animation.next() )
   }
 }
+Spider.prototype = jaws.Sprite.prototype;
 
 function PixelMapExample() {
   var anim = new jaws.Animation({sprite_sheet: "droid_11x15.png", frame_duration: 100, scale_image: 2});
@@ -24,7 +25,6 @@ function PixelMapExample() {
   spiders.push( new Spider({x: 440, y: 10}) );
   spiders.push( new Spider({x: 540, y: 10}) );
 
-  pixel_map.nameColor("air", pixel_map.at(0,0));
   pixel_map.nameColor("ground", [0,0,0,255]);
 
   player.anim_rest = anim.slice(0,5);
@@ -80,13 +80,7 @@ function PixelMapExample() {
       return !pixel_map.namedColorAtRect("ground", sprite.rect())
     });
 
-    /*
-     * If we collided while moving vertically and had a vertical velocity, enable jumping again
-     */
-    if(collided.y) {
-      if(sprite.vy > 0) sprite.can_jump = true;
-      sprite.vy = 0;
-    }
+    if(collided.y) sprite.vy = 0;
 
     if(collided.x && sprite.vx != 0) {
       var saved_position = [sprite.x, sprite.y];
@@ -106,7 +100,6 @@ function PixelMapExample() {
 }
 
 jaws.onload = function() {
-  Spider.prototype = jaws.Sprite.prototype;
   jaws.assets.add("droid_11x15.png", "pixel_map_alpha.png", "spider_8x5.bmp");
   jaws.start(PixelMapExample, {width: 900, height: 300});
 }

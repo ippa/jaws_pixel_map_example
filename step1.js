@@ -3,11 +3,13 @@ function PixelMapExample() {
   var pixel_map = new jaws.PixelMap({image: "pixel_map_1.png", scale_image: 3});
   pixel_map.nameColor("ground", [0,0,0,255]); // Let's call R(0), G(0), B(0), A(255) "ground"
 
+  // Called once when activated or switchex to
   this.setup = function() {
     player.vx = player.vy = 0;
     jaws.preventDefaultKeys("up", "down", "left", "right", "space")
   }
 
+  // Called in combination with draw() from the jaws gameloop, forever.
   this.update = function() {
     if(jaws.pressed("right d")) { player.vx = 2 }
     if(jaws.pressed("left a"))  { player.vx = -2 }
@@ -36,6 +38,13 @@ function PixelMapExample() {
 
 jaws.onload = function() {
   jaws.assets.add("pixel_map_1.png");
+  //
+  // Other ways of using jaws.assets:
+  //
+  // jaws.assets.add("sprite.bmp")                // FUCHIA -> transparency
+  // jaws.assets.add("song.mp3", "song.ogg")      // Will only load supported formats, access with jaws.assets.get("song.*")
+  // jaws.assets.add("data.json")                 // jaws.assets.get("data.json") -> Object created from the JSON
+  //
   jaws.start(PixelMapExample, {width: 900, height: 300});
 }
 
