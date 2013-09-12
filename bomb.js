@@ -21,3 +21,4 @@ function Bomb(options) {
   }
 }
 
+Bomb.prototype = jaws.Sprite.prototype;

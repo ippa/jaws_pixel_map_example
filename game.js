@@ -32,20 +32,18 @@ function Game() {
       world.pixel_map.update();
     }
 
-    // Update animations and so on
+    // Update gamelogic, animations etc.
     jaws.update(player, spiders, bombs);
 
-    // Update sprites x/y according to objects vx/vy and the terrain
+    // Apply physics to player, all spiders and all bombs
     world.update(player, spiders, bombs);
 
-    jaws.log("bombs: " + bombs.length);
     for(var i = 0; i < bombs.length; i++) {
       if(bombs[i].status == "exploded") {
         world.explodeBomb(bombs[i]);
         bombs.splice(i, 1);
       }
     }
-    //bombs = bombs.filter( function(bomb) { return bomb.status == "active" } )
   }
 
   this.draw = function() {
@@ -53,21 +51,15 @@ function Game() {
     
     // Everything within viewport.apply is offseted correctly
     viewport.apply( function() {
-      // Paint player first to put it behind grass/water
-      jaws.draw(player, world.pixel_map, bombs, spiders)  
+      // Paint player and objects first to put it behind grass/water/etc
+      jaws.draw(player, bombs, spiders, world.pixel_map)
     });
 
     viewport.centerAround(player);
   }
 }
 
-// When all jaws-files and DOM is loaded, this is executed
-jaws.onload = function() {
-  Spider.prototype = jaws.Sprite.prototype;
-  Player.prototype = jaws.Sprite.prototype;
-  Bomb.prototype = jaws.Sprite.prototype;
+jaws.assets.add("droid_11x15.png", "pixel_map_alpha.png", "spider_8x5.bmp", "bomb_7x8.bmp");
 
-  jaws.assets.add("droid_11x15.png", "pixel_map_alpha.png", "spider_8x5.bmp", "bomb_7x8.bmp");
-  jaws.start(Game, {width: 900, height: 300})
-}
+jaws.start(Game, {width: 900, height: 300})
 

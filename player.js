@@ -18,4 +18,5 @@ function Player(options) {
     if(this.vx < 0)   this.setImage(anim_left.next()); 
   }
 }
+Player.prototype = jaws.Sprite.prototype;
 
