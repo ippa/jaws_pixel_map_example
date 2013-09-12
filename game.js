@@ -1,12 +1,12 @@
 function Game() {
-  var player = new Player({x: 100, y: 200});
+  var player = new Player({x: 120, y: 150});
   var world = new World({image: "pixel_map_alpha.png"});
   var viewport = new jaws.Viewport({max_x: world.pixel_map.width, max_y: world.pixel_map.height});
 
   var bombs = [];
   var spiders = [];
 
-  spiders.push( new Spider({x: 140, y: 10}) );
+  spiders.push( new Spider({x: 110, y: 30}) );
   spiders.push( new Spider({x: 440, y: 10}) );
   spiders.push( new Spider({x: 540, y: 10}) );
 
@@ -20,16 +20,13 @@ function Game() {
     if(jaws.pressed("left a"))  { player.vx = -2 }
     if(jaws.pressedWithoutRepeat("up")) { player.vy = -7 }
     if(jaws.pressedWithoutRepeat("ctrl")) {
-      bombs.push( new Bomb({x: player.x, y: player.y - player.height, vx: player.vx * 4, vy: -8 }) )
+      var bomb = new Bomb({x: player.x, y: player.y - player.height, vx: player.vx * 4, vy: -8 })
+      bombs.push( bomb )
     }
 
     if(jaws.pressedWithoutRepeat("esc")) { 
-      jaws.switchGameState( new jaws.game_states.Edit({constructors: [Spider], grid_size: [2,2], game_objects: spiders, url: "/game_objects"}) )
-    }
-
-    if(jaws.pressedWithoutRepeat("u")) {
-      console.log("pixel_map.update();")
-      world.pixel_map.update();
+      var game_state = new jaws.game_states.Edit({constructors: [Spider], grid_size: [2,2], game_objects: spiders, url: "/game_objects"})
+      jaws.switchGameState( game_state )
     }
 
     // Update gamelogic, animations etc.

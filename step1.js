@@ -39,13 +39,15 @@ function PixelMapExample() {
   }
 }
 
-jaws.assets.add("pixel_map_1.png");
+jaws.assets.add("pixel_map_1.png");   // LATER ON: jaws.assets.get("pixel_map_1.png")
 /*
 *  Other ways of using jaws.assets:
 *
 * jaws.assets.add("sprite.bmp")                // FUCHIA -> transparency
-* jaws.assets.add("song.mp3", "song.ogg")      // Will only load supported formats, access with jaws.assets.get("song.*")
+*
 * jaws.assets.add("data.json")                 // jaws.assets.get("data.json") -> Object created from the JSON
+*
+* jaws.assets.add("song.mp3", "song.ogg")      // Will only load supported formats, access with jaws.assets.get("song.*")
 *
 */
 

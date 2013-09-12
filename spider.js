@@ -16,7 +16,7 @@ function Spider(options) {
   }
 
   this.update = function() {
-    if(self.vy < 3) self.vx = self.static_vx;
+    self.vx = self.static_vx;
     self.setImage( animation.next() )
   }
 }

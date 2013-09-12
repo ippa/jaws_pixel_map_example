@@ -39,7 +39,7 @@ function PixelMapExample() {
 
   function updatePhysics(sprite) {
     sprite.vy += 0.3;
-    if(sprite.vy > 5) sprite.vy = 5;
+    if(sprite.vy > 7) sprite.vy = 7;
 
     /*
      * We need to:
