@@ -19,6 +19,8 @@ function Spider(options) {
     self.vx = self.static_vx;
     self.setImage( animation.next() )
   }
+
+  this._constructor = "Spider"  // Needed for the jaws Editor
 }
 Spider.prototype = jaws.Sprite.prototype;
 
