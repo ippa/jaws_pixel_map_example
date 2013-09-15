@@ -1,7 +1,7 @@
 function Game() {
   var player = new Player({x: 120, y: 150});
   var world = new World({image: "pixel_map_alpha.png"});
-  var viewport = new jaws.Viewport({max_x: world.pixel_map.width, max_y: world.pixel_map.height});
+  this.viewport = new jaws.Viewport({max_x: world.pixel_map.width, max_y: world.pixel_map.height});
 
   var bombs = [];
   var spiders = [];
@@ -25,7 +25,7 @@ function Game() {
     }
 
     if(jaws.pressedWithoutRepeat("esc")) { 
-      var game_state = new jaws.game_states.Edit({constructors: [Spider], grid_size: [2,2], game_objects: spiders, url: "/game_objects"})
+      var game_state = new jaws.game_states.Edit({constructors: [Spider], grid_size: [8,8], game_objects: spiders, url: "/game_objects"})
       jaws.switchGameState( game_state )
     }
 
@@ -41,18 +41,17 @@ function Game() {
         bombs.splice(i, 1);
       }
     }
+    this.viewport.centerAround(player);
   }
 
   this.draw = function() {
     jaws.fill("blue");                                    
     
     // Everything within viewport.apply is offseted correctly
-    viewport.apply( function() {
+    this.viewport.apply( function() {
       // Paint player and objects first to put it behind grass/water/etc
       jaws.draw(player, bombs, spiders, world.pixel_map)
     });
-
-    viewport.centerAround(player);
   }
 }
 
