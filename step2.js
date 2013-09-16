@@ -1,8 +1,6 @@
 function PixelMapExample() {
   var player = new jaws.Sprite({x:100, y:200, anchor: "bottom_center"});
-  
-  var pixel_map = new jaws.PixelMap({image: "pixel_map_1.png", scale_image: 3});
-  
+  var pixel_map = new jaws.PixelMap({image: "map.bmp", scale_image: 3});
   pixel_map.nameColor("ground", [0,0,0,255]);
 
   var anim = new jaws.Animation({sprite_sheet: "droid_11x15.png", frame_duration: 100, scale_image: 2});
@@ -34,33 +32,32 @@ function PixelMapExample() {
   this.draw = function() {
     pixel_map.draw();
     player.draw();
-    player.rect().draw();
   }
 
   function updatePhysics(sprite) {
     sprite.vy += 0.3;
     if(sprite.vy > 7) sprite.vy = 7;
 
+    function notTouchingGround(sprite) { return !pixel_map.namedColorAtRect("ground", sprite.rect()) }
     /*
      * We need to:
      * - Step 1 pixel at the time checking for collisions, use sprite.stepToWhile()
      * - Be able to step both forward (+) and backwards (-)
      * - Be able to tell if we collided while moving vertical or horizontal (see returned collided-object)
      */
-    var collided = sprite.stepToWhile(sprite.x + sprite.vx, sprite.y + sprite.vy, function(sprite) {
-      return !pixel_map.namedColorAtRect("ground", sprite.rect())
-    });
 
-    if(collided.y) sprite.vy = 0;
+    var collided = sprite.stepWhile(sprite.vx, sprite.vy, notTouchingGround);
+
+    if(collided.y) sprite.vy = 0; // We collided moving vertically
 
     /*
      * Enable player to automatically climb up 3 pixels
      */
-    if(collided.x) {
+    if(collided.x) {  // We collided moving horizontally
       var saved_position = [sprite.x, sprite.y];
-      var try_y = sprite.y - 3;
-      var collided = sprite.stepToWhile(sprite.x + sprite.vx, try_y, function(sprite) {
-        return (!pixel_map.namedColorAtRect("ground", sprite.rect()) || sprite.y != try_y)
+      var min_y = sprite.y - 3
+      var collided = sprite.stepWhile(sprite.vx, -3, function(sprite) {
+        return !pixel_map.namedColorAtRect("ground", sprite.rect()) || sprite.y != min_y
       });
 
       if(collided.x || collided.y) {
@@ -71,6 +68,5 @@ function PixelMapExample() {
   }
 }
 
-jaws.assets.add("droid_11x15.png", "pixel_map_1.png");
+jaws.assets.add("droid_11x15.png", "map.bmp");
 jaws.start(PixelMapExample, {width: 900, height: 300})
-
