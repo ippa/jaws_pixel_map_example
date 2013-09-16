@@ -1,7 +1,7 @@
 function PixelMapExample() {
   var player = new jaws.Sprite({x:100, y:200, anchor: "bottom_center"});
   var pixel_map = new jaws.PixelMap({image: "map.bmp", scale_image: 3});
-  pixel_map.nameColor("ground", [0,0,0,255]); 
+  pixel_map.nameColor([0,0,0,255], "ground"); 
 
   // Called once when gamestate isactivated
   this.setup = function() {

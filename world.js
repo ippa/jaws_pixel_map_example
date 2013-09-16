@@ -1,7 +1,7 @@
 function World(options) {
   var self = this
   this.pixel_map = new jaws.PixelMap({image: options.image, scale_image: 3});
-  this.pixel_map.nameColor("ground", [0,0,0,255]);
+  this.pixel_map.nameColor([0,0,0,255], "ground");
 
   /*
    * Call updatePhysics() on all provided sprites
@@ -28,9 +28,8 @@ function World(options) {
      * - Be able to step both forward (+) and backwards (-)
      * - Be able to tell if we collided while moving vertical or horizontal (see collided)
      */
-    var collided = sprite.stepToWhile(sprite.x + sprite.vx, sprite.y + sprite.vy, function(sprite) {
-      return !self.pixel_map.namedColorAtRect("ground", sprite.rect())
-    });
+    function notTouchingGround(sprite) { return !self.pixel_map.namedColorAtRect("ground", sprite.rect()) }
+    var collided = sprite.stepWhile(sprite.vx, sprite.vy, notTouchingGround);
 
     /*
      * If we collided while moving vertically and had a vertical velocity, enable jumping again
@@ -38,8 +37,8 @@ function World(options) {
     if(collided.y) sprite.vy = 0;
 
     if(collided.x && sprite.vx != 0) {
-      var saved_position = [sprite.x, sprite.y]
-        var try_y = sprite.y - 5;
+      var saved_position = [sprite.x, sprite.y];
+      var try_y = sprite.y - 5;
       var collided = sprite.stepToWhile(sprite.x + sprite.vx, try_y, function(sprite) {
         if(sprite.y != try_y) return true;
         return !self.pixel_map.namedColorAtRect("ground", sprite.rect())
