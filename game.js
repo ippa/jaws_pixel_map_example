@@ -1,6 +1,6 @@
 function Game() {
   var player = new Player({x: 120, y: 150});
-  var world = new World({image: "pixel_map_alpha.png"});
+  var world = new World({image: "map.png"});
   this.viewport = new jaws.Viewport({max_x: world.pixel_map.width, max_y: world.pixel_map.height});
 
   var bombs = [];
@@ -55,7 +55,7 @@ function Game() {
   }
 }
 
-jaws.assets.add("droid_11x15.png", "pixel_map_alpha.png", "spider_8x5.bmp", "bomb_7x8.bmp");
+jaws.assets.add("droid_11x15.png", "map.png", "spider_8x5.bmp", "bomb_7x8.bmp");
 
 jaws.start(Game, {width: 900, height: 300})
 
